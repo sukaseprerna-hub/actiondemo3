@@ -14,12 +14,12 @@ jobs:
 
             - name: run extract.py
               run: python extract.py
-              
+
     transform-data-jobs:
         runs-on: ubuntu-latest
         steps:
             - name: checkout code
-              uses: action/checkout@v2
+              uses: actions/checkout@v2
 
             - name: run transform.py
               run: python transform.py
@@ -28,7 +28,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: checkout code
-              uses: action/checkout@v2
+              uses: actions/checkout@v2
 
             - name: run load.py
               run: python load.py
