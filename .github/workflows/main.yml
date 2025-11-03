@@ -21,7 +21,7 @@ jobs:
               uses: action/checkout@v2
 
             - name: run transform.py
-              run: python transform.py
+              run: python --version
 
     load-data-jobs:
         runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
               uses: action/checkout@v2
 
             - name: run load.py
-              run: python load.py
+              run: python --version
 
             
 
