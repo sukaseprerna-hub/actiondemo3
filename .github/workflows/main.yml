@@ -1,39 +1,38 @@
-name: ETL pipeline demo
+name: Calculator Test and Deploy
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    extract-data-job:
-        runs-on: ubuntu-latest  
-        steps:
-            - name: checkout code
-              uses: actions/checkout@v2
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-            - name: run extract.py
-              run: python extract.py
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    transform-data-jobs:
-        runs-on: ubuntu-latest
-        needs: extract-data-job
-        steps:
-            - name: checkout code
-              uses: actions/checkout@v2
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-            - name: run transform.py
-              run: python transform.py
+      - name: Run tests and enforce coverage
+        run: |
+          pytest --cov=calc --cov-report=term --cov-report=html --cov-fail-under=80
 
-    load-data-jobs:
-        runs-on: ubuntu-latest
-        needs: transform-data-jobs
-        steps:
-            - name: checkout code
-              uses: actions/checkout@v2
+      - name: Upload HTML coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-coverage-report
+          path: htmlcov/
 
-            - name: run load.py
-              run: python load.py
-
-            
-
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Print deployment message
+        run: echo "Coverage passed. Proceeding with deployment!"
