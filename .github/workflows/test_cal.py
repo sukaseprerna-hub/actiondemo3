@@ -1,4 +1,4 @@
-import test
+import pytest
 from calc import add, sub, mul, div
 
 def test_add():
@@ -14,5 +14,5 @@ def test_div():
     assert div(10, 2) == 5
 
 def test_div_by_zero():
-    with test.raises(ValueError):
+    with pytest.raises(ValueError):
         div(5, 0)
